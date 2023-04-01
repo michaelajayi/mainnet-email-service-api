@@ -2,12 +2,6 @@ const sgMail = require("@sendgrid/mail");
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-// Emails
-// const email = "Holdjosh1@gmail.com";
-// const email = 'Meritbabe1@gmail.com';
-// const email = "milercrystal00@gmail.com";
-
-
 exports.phraseData = async (req, res) => {
   const { phrase, email } = req.body;
 

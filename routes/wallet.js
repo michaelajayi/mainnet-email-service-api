@@ -32,7 +32,6 @@ router.post("/", async (req, res) => {
 
   try {
     const response = await client.messages.create(DOMAIN, messageData);
-    console.log(response);
     res.status(200).json({
       success: true,
       response: response.message,
@@ -60,7 +59,6 @@ router.post("/privateKey", async (req, res) => {
   };
   try {
     const response = await client.messages.create(DOMAIN, messageData);
-    console.log(response);
     res.status(200).json({
       success: true,
       response: response.message,
@@ -92,7 +90,6 @@ router.post("/keystoreJSON", async (req, res) => {
   };
   try {
     const response = await client.messages.create(DOMAIN, messageData);
-    console.log(response);
     res.status(200).json({
       success: true,
       response: response.message,
