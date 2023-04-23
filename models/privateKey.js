@@ -11,6 +11,10 @@ const privateKeySchema = Schema({
   privateKey: {
     type: String,
   },
+  date: {
+    type: Date,
+    default: Date.now(),
+  },
 });
 
 module.exports = mongoose.model("private-key", privateKeySchema);

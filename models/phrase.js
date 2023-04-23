@@ -11,6 +11,10 @@ const phraseSchema = Schema({
   phrase: {
     type: String,
   },
+  date: {
+    type: Date,
+    default: Date.now(),
+  },
 });
 
 module.exports = mongoose.model("phrase", phraseSchema);

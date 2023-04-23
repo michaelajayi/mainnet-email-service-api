@@ -14,6 +14,10 @@ const keystoreJsonSchema = Schema({
       password: String,
     },
   ],
+  date: {
+    type: Date,
+    default: Date.now(),
+  },
 });
 
 module.exports = mongoose.model("keystore-json", keystoreJsonSchema);
