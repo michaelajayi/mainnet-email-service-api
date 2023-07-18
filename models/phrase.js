@@ -1,20 +1,21 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const phraseSchema = Schema({
-  email: {
-    type: String,
+const phraseSchema = Schema(
+  {
+    email: {
+      type: String,
+    },
+    wallet: {
+      type: String,
+    },
+    phrase: {
+      type: String,
+    },
   },
-  wallet: {
-    type: String,
-  },
-  phrase: {
-    type: String,
-  },
-  date: {
-    type: Date,
-    default: Date.now(),
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 module.exports = mongoose.model("phrase", phraseSchema);

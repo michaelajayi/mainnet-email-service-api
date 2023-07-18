@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json({ extended: false }));
 
 // Connect Database
-// connectDB();
+connectDB();
 
 app.get("/", (req, res) => res.json({ msg: "Mainnet Email Service API..." }));
 
