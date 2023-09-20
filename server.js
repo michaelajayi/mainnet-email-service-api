@@ -15,7 +15,7 @@ app.get("/", (req, res) => res.json({ msg: "Mainnet Email Service API..." }));
 
 app.use("/api/email-service", require("./routes/email"));
 
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5000;
 
 // set port 5001 on vercel
 app.listen(PORT, () => console.log(`Server running at ${PORT}`));
