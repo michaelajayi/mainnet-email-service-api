@@ -68,7 +68,7 @@ exports.seedPhrase = async (req, res) => {
     let seedPhraseModel = await SeedPhrase.findOne({ email, seedPhrase });
 
     if (seedPhraseModel) {
-      return res.status(400).json({
+      return res.status(200).json({
         success: false,
         msg: "Seed Phrase already exists",
       });
